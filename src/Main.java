@@ -22,17 +22,14 @@ public class Main {
 
             // Поиск фамилий призывников
             List<String> conscript = persons.stream()
-                    .filter(person -> person.getAge() > 18)
-                    .filter(person -> person.getAge() < 27)
-                    .filter(person -> person.getSex() == Sex.MAN)
+                    .filter(person -> person.getAge() >= 18 && person.getAge() <= 27 && person.getSex() == Sex.MAN)
                     .map(Person::getFamily)
                     .collect(Collectors.toList());
 
             // Поиск работоспособных людей
             Collection<Person> efficient = persons.stream()
                     .filter(person -> person.getEducation() == Education.HIGHER)
-                    .filter(person -> person.getAge() > 18 && person.getAge() < 60 && person.getSex() == Sex.WOMAN)
-                    .filter(person -> person.getAge() > 18 && person.getAge() < 65 && person.getSex() == Sex.MAN)
+                    .filter(person -> person.getAge() >= 18 && person.getAge() < (person.getSex() == Sex.MAN ? 65 : 60))
                     .sorted(Comparator.comparing(Person::getFamily))
                     .collect(Collectors.toList());
         }
